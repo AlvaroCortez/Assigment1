@@ -1,0 +1,50 @@
+package com.example.splashscreen;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import android.app.AlertDialog;
+import android.app.ListActivity;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
+
+public class DemoActivity extends ListActivity {
+
+
+	final String[] catnames = new String[] { "Рыжик", "Барсик", "Мурзик",
+			"Мурка", "Васька", "Томасина", "Бобик", "Кристина", "Пушок",
+			"Дымка", "Кузя", "Китти", "Барбос", "Масяня", "Симба" };
+
+	private ArrayAdapter<String> adapter;
+
+	private String selectedItem;
+	private final Context context = this;
+
+	/** Called when the activity is first created. */
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		
+
+		
+			
+
+		ArrayList<String> list = new ArrayList<String>(Arrays.asList(catnames));
+
+		adapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_1, list);
+
+		
+		setListAdapter(adapter);
+
+	}
+}
