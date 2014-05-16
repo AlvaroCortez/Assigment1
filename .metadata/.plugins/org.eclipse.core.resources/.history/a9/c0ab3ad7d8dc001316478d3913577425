@@ -5,24 +5,24 @@ import java.util.Date;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Window;
 
 public class SplashScreenActivity extends ActionBarActivity {
 	private static long firstTime;
 	private static long summTime;
-	private static final long globalTime = SystemClock.uptimeMillis();
+	private static long globalTime;
 	private Runnable start;
 	private static final String TIIME = "myTime";
 	private Handler handler = new Handler();
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
-		
+		Date now = new Date();
 		start = new Runnable() {
 
 			// Using handler with postDelayed called runnable run method
@@ -39,10 +39,12 @@ public class SplashScreenActivity extends ActionBarActivity {
 			
 			summTime = savedInstanceState.getLong(TIIME);// все суммарное время
 			firstTime = 2000 - (summTime-globalTime);// все время минус
-			if (firstTime<0) firstTime=0;			// начальное(800-300)
+														// начальное(800-300)
 		} else {
-			firstTime = 2000;	
-			summTime = SystemClock.uptimeMillis();
+			firstTime = 2000;
+			globalTime = now.getSeconds();
+			Date firstDate = new Date();	
+			summTime = firstDate.getSeconds();
 			
 		}
 	}
@@ -53,7 +55,8 @@ public class SplashScreenActivity extends ActionBarActivity {
 	}
 
 	public void onSaveInstanceState(Bundle saveInstanceState) {
-		summTime += SystemClock.uptimeMillis();
+		Date on = new Date();
+		summTime += on.getSeconds();
 		saveInstanceState.putLong(TIIME, summTime);
 		super.onSaveInstanceState(saveInstanceState);
 	}
