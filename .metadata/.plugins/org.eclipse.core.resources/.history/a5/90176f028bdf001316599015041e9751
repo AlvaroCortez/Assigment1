@@ -10,13 +10,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Window;
 
 public class SplashScreenActivity extends ActionBarActivity {
-	private static long delayMilliseconds;
-	private static long timeSinceLaunchMilliseconds;
-	private static final long globalTimeMilliseconds = SystemClock.uptimeMillis();
-	private static final int startDelayMilliseconds = 2000;
-	private static final String TIIME = "myTime";
-
+	private static long firstTime;
+	private static long summTime;
+	private static final long globalTime = SystemClock.uptimeMillis();
 	private Runnable start;
+	private static final String TIIME = "myTime";
 	private Handler handler = new Handler();
 
 	@Override
@@ -24,7 +22,7 @@ public class SplashScreenActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
-
+		
 		start = new Runnable() {
 
 			// Using handler with postDelayed called runnable run method
@@ -38,27 +36,25 @@ public class SplashScreenActivity extends ActionBarActivity {
 			}
 		};
 		if (savedInstanceState != null) {
-			timeSinceLaunchMilliseconds = savedInstanceState.getLong(TIIME);// total time and then
-																			// calculate delay
-			delayMilliseconds = startDelayMilliseconds - (timeSinceLaunchMilliseconds - globalTimeMilliseconds);
 			
-			if (delayMilliseconds < 0) {
-				delayMilliseconds = 0;  
-			}
+			summTime = savedInstanceState.getLong(TIIME);// все суммарное время
+			firstTime = 2000 - (summTime-globalTime);// все время минус
+			if (firstTime<0) firstTime=0;			// начальное(800-300)
 		} else {
-			delayMilliseconds = startDelayMilliseconds;
-			timeSinceLaunchMilliseconds = SystemClock.uptimeMillis();
+			firstTime = 2000;	
+			summTime = SystemClock.uptimeMillis();
+			
 		}
 	}
 
 	protected void onStart() {
 		super.onStart();
-		handler.postDelayed(start, delayMilliseconds);
+		handler.postDelayed(start, firstTime);
 	}
 
 	public void onSaveInstanceState(Bundle saveInstanceState) {
-		timeSinceLaunchMilliseconds += SystemClock.uptimeMillis();
-		saveInstanceState.putLong(TIIME, timeSinceLaunchMilliseconds);
+		summTime += SystemClock.uptimeMillis();
+		saveInstanceState.putLong(TIIME, summTime);
 		super.onSaveInstanceState(saveInstanceState);
 	}
 

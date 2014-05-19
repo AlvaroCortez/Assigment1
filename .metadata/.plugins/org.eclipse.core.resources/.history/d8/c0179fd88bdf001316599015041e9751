@@ -13,9 +13,8 @@ public class SplashScreenActivity extends ActionBarActivity {
 	private static long delayMilliseconds;
 	private static long timeSinceLaunchMilliseconds;
 	private static final long globalTimeMilliseconds = SystemClock.uptimeMillis();
-	private static final int startDelayMilliseconds = 2000;
 	private static final String TIIME = "myTime";
-
+	
 	private Runnable start;
 	private Handler handler = new Handler();
 
@@ -24,7 +23,7 @@ public class SplashScreenActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
-
+		
 		start = new Runnable() {
 
 			// Using handler with postDelayed called runnable run method
@@ -38,16 +37,14 @@ public class SplashScreenActivity extends ActionBarActivity {
 			}
 		};
 		if (savedInstanceState != null) {
-			timeSinceLaunchMilliseconds = savedInstanceState.getLong(TIIME);// total time and then
-																			// calculate delay
-			delayMilliseconds = startDelayMilliseconds - (timeSinceLaunchMilliseconds - globalTimeMilliseconds);
 			
-			if (delayMilliseconds < 0) {
-				delayMilliseconds = 0;  
-			}
+			timeSinceLaunchMilliseconds = savedInstanceState.getLong(TIIME);// total time
+			delayMilliseconds = 2000 - (timeSinceLaunchMilliseconds-globalTimeMilliseconds);
+			if (delayMilliseconds<0) delayMilliseconds=0;			// calculate delay
 		} else {
-			delayMilliseconds = startDelayMilliseconds;
+			delayMilliseconds = 2000;	
 			timeSinceLaunchMilliseconds = SystemClock.uptimeMillis();
+			
 		}
 	}
 

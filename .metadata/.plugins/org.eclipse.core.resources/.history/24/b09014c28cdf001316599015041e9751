@@ -12,7 +12,8 @@ import android.view.Window;
 public class SplashScreenActivity extends ActionBarActivity {
 	private static long delayMilliseconds;
 	private static long timeSinceLaunchMilliseconds;
-	private static final long globalTimeMilliseconds = SystemClock.uptimeMillis();
+	private static final long globalTimeMilliseconds = SystemClock
+			.uptimeMillis();
 	private static final int startDelayMilliseconds = 2000;
 	private static final String TIIME = "myTime";
 
@@ -38,16 +39,17 @@ public class SplashScreenActivity extends ActionBarActivity {
 			}
 		};
 		if (savedInstanceState != null) {
+
 			timeSinceLaunchMilliseconds = savedInstanceState.getLong(TIIME);// total time and then
 																			// calculate delay
 			delayMilliseconds = startDelayMilliseconds - (timeSinceLaunchMilliseconds - globalTimeMilliseconds);
-			
 			if (delayMilliseconds < 0) {
 				delayMilliseconds = 0;  
 			}
 		} else {
 			delayMilliseconds = startDelayMilliseconds;
 			timeSinceLaunchMilliseconds = SystemClock.uptimeMillis();
+
 		}
 	}
 
