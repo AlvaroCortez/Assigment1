@@ -1,9 +1,11 @@
 package com.assigment1.splashscreen;
 
 import java.util.Date;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Window;
 
@@ -11,7 +13,7 @@ public class SplashScreenActivity extends ActionBarActivity {
 	private static Date dateSinceStartSeconds = new Date();
 	private static long delayMilliseconds;
 	private static long timeSinceLaunchMilliseconds;
-	private static final long globalTimeMilliseconds = dateSinceStartSeconds.getSeconds()*1000;
+	private static final long globalTimeMilliseconds = dateSinceStartSeconds.getSeconds();
 	private static final int startDelayMilliseconds = 2000;
 	private static final String TIIME = "myTime";
 
@@ -46,7 +48,7 @@ public class SplashScreenActivity extends ActionBarActivity {
 			}
 		} else {
 			delayMilliseconds = startDelayMilliseconds;
-			timeSinceLaunchMilliseconds = dateSinceStartSeconds.getSeconds()*1000;
+			timeSinceLaunchMilliseconds = dateSinceStartSeconds.getSeconds();
 		}
 	}
 
@@ -56,7 +58,7 @@ public class SplashScreenActivity extends ActionBarActivity {
 	}
 
 	public void onSaveInstanceState(Bundle saveInstanceState) {
-		timeSinceLaunchMilliseconds += dateSinceStartSeconds.getSeconds()*1000;
+		timeSinceLaunchMilliseconds += dateSinceStartSeconds.getSeconds();
 		saveInstanceState.putLong(TIIME, timeSinceLaunchMilliseconds);
 		super.onSaveInstanceState(saveInstanceState);
 	}

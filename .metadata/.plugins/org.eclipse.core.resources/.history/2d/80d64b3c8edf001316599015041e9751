@@ -11,7 +11,7 @@ public class SplashScreenActivity extends ActionBarActivity {
 	private static Date dateSinceStartSeconds = new Date();
 	private static long delayMilliseconds;
 	private static long timeSinceLaunchMilliseconds;
-	private static final long globalTimeMilliseconds = dateSinceStartSeconds.getSeconds()*1000;
+	private static final long globalTimeMilliseconds = dateSinceStartSeconds.getSeconds();
 	private static final int startDelayMilliseconds = 2000;
 	private static final String TIIME = "myTime";
 
@@ -46,7 +46,7 @@ public class SplashScreenActivity extends ActionBarActivity {
 			}
 		} else {
 			delayMilliseconds = startDelayMilliseconds;
-			timeSinceLaunchMilliseconds = dateSinceStartSeconds.getSeconds()*1000;
+			timeSinceLaunchMilliseconds = dateSinceStartSeconds.getSeconds();
 		}
 	}
 
@@ -56,7 +56,7 @@ public class SplashScreenActivity extends ActionBarActivity {
 	}
 
 	public void onSaveInstanceState(Bundle saveInstanceState) {
-		timeSinceLaunchMilliseconds += dateSinceStartSeconds.getSeconds()*1000;
+		timeSinceLaunchMilliseconds += dateSinceStartSeconds.getSeconds();
 		saveInstanceState.putLong(TIIME, timeSinceLaunchMilliseconds);
 		super.onSaveInstanceState(saveInstanceState);
 	}
