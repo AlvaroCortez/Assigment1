@@ -8,13 +8,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Window;
 
 public class SplashScreenActivity extends ActionBarActivity {
-	private static final Date dateSinceStartSeconds = new Date();
-	private static final int secondsInMilliseconds = 1000; 
-	private static final int ZERO = 0;
-	private static int delayMilliseconds;
-	private static int timeSinceLaunchMilliseconds;
-	private static int startTimeMilliseconds = dateSinceStartSeconds.getSeconds()*secondsInMilliseconds;
-	private static final int startDelayMilliseconds = 2000;
+	private static final Date dateSinceStartSeconds = new Date(0);
+	private static long delayMilliseconds;
+	private static long timeSinceLaunchMilliseconds;
+	private static long globalTimeMilliseconds = dateSinceStartSeconds.getSeconds()*1000;
+	private static final int startDelayMilliseconds = 15000;
 	private static final String TIIME = "myTime";
 
 	private Runnable start;
@@ -39,16 +37,18 @@ public class SplashScreenActivity extends ActionBarActivity {
 			}
 		};
 		if (savedInstanceState != null) {
-			timeSinceLaunchMilliseconds = savedInstanceState.getInt(TIIME);// total time and then
-																			// calculated delay
+			timeSinceLaunchMilliseconds = savedInstanceState.getLong(TIIME);// total time and then
+																			// calculate delay
 			delayMilliseconds = startDelayMilliseconds - timeSinceLaunchMilliseconds;
 			
-			if (delayMilliseconds < ZERO) {
-				delayMilliseconds = ZERO;  
+			timeSinceLaunchMilliseconds = dateSinceStartSeconds.getSeconds()*1000;
+			
+			if (delayMilliseconds < 0) {
+				delayMilliseconds = 0;  
 			}
 		} else {
 			delayMilliseconds = startDelayMilliseconds;
-			timeSinceLaunchMilliseconds = dateSinceStartSeconds.getSeconds()*secondsInMilliseconds;
+			timeSinceLaunchMilliseconds = dateSinceStartSeconds.getSeconds()*1000;
 		}
 	}
 
@@ -58,10 +58,10 @@ public class SplashScreenActivity extends ActionBarActivity {
 	}
 
 	public void onSaveInstanceState(Bundle saveInstanceState) {
-		Date nowDateTimeMilliseconds = new Date();
-		timeSinceLaunchMilliseconds= nowDateTimeMilliseconds.getSeconds()*secondsInMilliseconds;//calculated how much
-		timeSinceLaunchMilliseconds = timeSinceLaunchMilliseconds - startTimeMilliseconds;		//time has passed
-		saveInstanceState.putInt(TIIME, timeSinceLaunchMilliseconds);
+		Date nowTimeMilliseconds = new Date();
+		globalTimeMilliseconds= nowTimeMilliseconds.getSeconds()*1000;
+		timeSinceLaunchMilliseconds = globalTimeMilliseconds - timeSinceLaunchMilliseconds;
+		saveInstanceState.putLong(TIIME, timeSinceLaunchMilliseconds);
 		super.onSaveInstanceState(saveInstanceState);
 	}
 
