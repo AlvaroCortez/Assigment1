@@ -13,7 +13,7 @@ public class SplashScreenActivity extends ActionBarActivity {
 	private long delayMilliseconds;
 	private long timeSinceLaunchMilliseconds;
 	private long startTimeMilliseconds;
-	private static final int startDelayMilliseconds = 2000;
+	private static final int startDelayMilliseconds = 20000;
 	private static final String TIIME = "myTime";
 
 	private Runnable startNewActivity;

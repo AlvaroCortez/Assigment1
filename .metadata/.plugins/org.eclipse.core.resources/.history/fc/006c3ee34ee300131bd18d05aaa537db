@@ -9,14 +9,14 @@ import android.view.Window;
 
 public class SplashScreenActivity extends ActionBarActivity {
 	private static final Date dateSinceStartSeconds = new Date(); 
-	private Date currentDateTime = new Date();
+	private static final int ZERO = 0;
 	private long delayMilliseconds;
 	private long timeSinceLaunchMilliseconds;
-	private long startTimeMilliseconds;
+	private long startTimeMilliseconds = dateSinceStartSeconds.getTime();
 	private static final int startDelayMilliseconds = 2000;
 	private static final String TIIME = "myTime";
 
-	private Runnable startNewActivity;
+	private Runnable start;
 	private Handler handler = new Handler();
 
 	@Override
@@ -25,7 +25,7 @@ public class SplashScreenActivity extends ActionBarActivity {
 		getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
 
-		startNewActivity = new Runnable() {
+		start = new Runnable() {
 
 			// Using handler with postDelayed called runnable run method
 
@@ -38,30 +38,34 @@ public class SplashScreenActivity extends ActionBarActivity {
 			}
 		};
 		if (savedInstanceState != null) {
-			startTimeMilliseconds = savedInstanceState.getLong(TIIME);// 
+			timeSinceLaunchMilliseconds = savedInstanceState.getLong(TIIME);// total time and then
+																			// calculated delay
+			delayMilliseconds = startDelayMilliseconds - timeSinceLaunchMilliseconds;
+			
+			if (delayMilliseconds < ZERO) {
+				delayMilliseconds = ZERO;  
+			}
 		} else {
-			 startTimeMilliseconds= dateSinceStartSeconds.getTime();
+			delayMilliseconds = startDelayMilliseconds;
+			timeSinceLaunchMilliseconds = dateSinceStartSeconds.getTime();
 		}
 	}
 
 	protected void onStart() {
 		super.onStart();
-		timeSinceLaunchMilliseconds = currentDateTime.getTime() - startTimeMilliseconds;
-		if (timeSinceLaunchMilliseconds<startDelayMilliseconds){
-			delayMilliseconds = startDelayMilliseconds-timeSinceLaunchMilliseconds;
-			handler.postDelayed(startNewActivity, delayMilliseconds);
-		} else{
-			handler.post(startNewActivity);
-		}
+		handler.postDelayed(start, delayMilliseconds);
 	}
 
 	public void onSaveInstanceState(Bundle saveInstanceState) {
-		saveInstanceState.putLong(TIIME, startTimeMilliseconds);
+		Date nowDateTimeMilliseconds = new Date();
+		timeSinceLaunchMilliseconds= nowDateTimeMilliseconds.getTime();//calculated how much
+		timeSinceLaunchMilliseconds = timeSinceLaunchMilliseconds - startTimeMilliseconds;		//time has passed
+		saveInstanceState.putLong(TIIME, timeSinceLaunchMilliseconds);
 		super.onSaveInstanceState(saveInstanceState);
 	}
 
 	protected void onStop() {
 		super.onStop();
-		handler.removeCallbacks(startNewActivity);
+		handler.removeCallbacks(start);
 	}
 }
