@@ -8,19 +8,17 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Window;
 
 public class SplashScreenActivity extends ActionBarActivity {
-	private static final Date dateSinceStartSeconds = new Date(); 
-	private Date currentDateTime = new Date();
-	private long delayMilliseconds;
-	private long timeSinceLaunchMilliseconds;
 	private long startTimeMilliseconds;
 	private static final int startDelayMilliseconds = 2000;
-	private static final String TIIME = "myTime";
+	private static final String TIME = "myTime";
 
 	private Runnable startNewActivity;
 	private Handler handler = new Handler();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Date currentDate = new Date(); 
+		
 		super.onCreate(savedInstanceState);
 		getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
@@ -37,15 +35,19 @@ public class SplashScreenActivity extends ActionBarActivity {
 				finish();
 			}
 		};
-		if (savedInstanceState != null) {
-			startTimeMilliseconds = savedInstanceState.getLong(TIIME);// 
+		if (savedInstanceState != null && savedInstanceState.containsKey(TIME)) {
+			startTimeMilliseconds = savedInstanceState.getLong(TIME);// 
 		} else {
-			 startTimeMilliseconds= dateSinceStartSeconds.getTime();
+			 startTimeMilliseconds= currentDate.getTime();
 		}
 	}
 
 	protected void onStart() {
+		Date currentDateTime = new Date();
+		long delayMilliseconds;
+		long timeSinceLaunchMilliseconds;
 		super.onStart();
+		
 		timeSinceLaunchMilliseconds = currentDateTime.getTime() - startTimeMilliseconds;
 		if (timeSinceLaunchMilliseconds<startDelayMilliseconds){
 			delayMilliseconds = startDelayMilliseconds-timeSinceLaunchMilliseconds;
@@ -56,7 +58,7 @@ public class SplashScreenActivity extends ActionBarActivity {
 	}
 
 	public void onSaveInstanceState(Bundle saveInstanceState) {
-		saveInstanceState.putLong(TIIME, startTimeMilliseconds);
+		saveInstanceState.putLong(TIME, startTimeMilliseconds);
 		super.onSaveInstanceState(saveInstanceState);
 	}
 
